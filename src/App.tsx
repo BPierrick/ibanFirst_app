@@ -4,14 +4,17 @@ import TotalAmountComponent from "./components/totalAmount/totalAmount";
 import AppProvider from "./store/appProvider";
 import MapContainer from "./components/map/mapContainer";
 import AccountContainer from "./components/accountContainer/accountContainer";
+import Container from "@material-ui/core/Container";
 
 function App() {
   return (
     <div className="App">
       <AppProvider>
-        <MapContainer />
-        <TotalAmountComponent />
-        <AccountContainer />
+        <Container maxWidth="xl">
+          <MapContainer />
+          <TotalAmountComponent />
+          <AccountContainer />
+        </Container>
       </AppProvider>
     </div>
   );

@@ -2,7 +2,8 @@ import {
   AppAction,
   SET_CURRENCY_RATE_ACTION,
   SET_ACCOUNT_DATA_ACTION,
-  GET_ACCOUNT_DATA_ACTION
+  GET_ACCOUNT_DATA_ACTION,
+  SET_CURRENCY_RATES_LOADED_ACTION
 } from "./appActions";
 import { Account } from "./appReducer";
 
@@ -11,12 +12,14 @@ export const applyMiddleware = (dispatch: Function) => async (
 ) => {
   switch (action.type) {
     case GET_ACCOUNT_DATA_ACTION:
+      let currencyRatesLoaded = true;
       const proxyUrl = "https://cors-anywhere.herokuapp.com/";
       const targetUrl =
         "https://platform.ibanfirst.com/js/dataTestDevFront.json";
 
-      fetch(proxyUrl + targetUrl).then(data => {
-        data.json().then((dataObj: { accounts: Array<Account> }) => {
+      fetch(proxyUrl + targetUrl)
+        .then(async data => {
+          const dataObj: { accounts: Array<Account> } = await data.json();
           dispatch({
             type: SET_ACCOUNT_DATA_ACTION,
             accounts: dataObj.accounts
@@ -32,14 +35,12 @@ export const applyMiddleware = (dispatch: Function) => async (
                 currency: account.currency,
                 rate: 1
               });
-              return;
-            }
+            } else {
+              const targetUrl = `https://api.ibanfirst.com/PublicAPI/Rate/${EUR_CURRENCY}${account.currency}/`;
 
-            const targetUrl = `https://api.ibanfirst.com/PublicAPI/Rate/${EUR_CURRENCY}${account.currency}/`;
-
-            fetch(proxyUrl + targetUrl)
-              .then(response => {
-                response.json().then(responseObj => {
+              fetch(proxyUrl + targetUrl)
+                .then(async response => {
+                  const responseObj = await response.json();
                   if (responseObj.errorMessage) {
                     console.error(responseObj.errorMessage);
                     dispatch({
@@ -55,12 +56,28 @@ export const applyMiddleware = (dispatch: Function) => async (
                       rate: parseFloat(responseObj.rate.rate)
                     });
                   }
+                })
+                .catch(error => {
+                  console.error(error);
+                  currencyRatesLoaded = false;
                 });
-              })
-              .catch(console.error);
+            }
+          });
+        })
+        .catch(error => {
+          console.error(error);
+          currencyRatesLoaded = false;
+        })
+        .finally(() => {
+          console.log(
+            "GET DATA PROMISE TERMINATED WITH currencyRatesLoaded: ",
+            currencyRatesLoaded
+          );
+          dispatch({
+            type: SET_CURRENCY_RATES_LOADED_ACTION,
+            currencyRatesLoaded
           });
         });
-      });
       break;
 
     default:

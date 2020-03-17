@@ -1,7 +1,7 @@
 import React, { useReducer, createContext } from "react";
 import { applyMiddleware } from "./appMiddleware";
 import { useActions } from "./appActions";
-import { appReducer, initialState, AppState, Account } from "./appReducer";
+import { appReducer, initialState, AppState } from "./appReducer";
 
 type ContextType = {
   state: AppState;
@@ -12,7 +12,6 @@ const initialContext: ContextType = {
   state: { ...initialState },
   actions: {
     setSelectedCountry: (code: string) => code,
-    setAccountData: (accounts: Array<Account>) => accounts,
     getAccountData: () => {}
   }
 };

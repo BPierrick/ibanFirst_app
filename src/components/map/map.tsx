@@ -38,7 +38,7 @@ class MapComponent extends React.Component<MapComponentProps, {}> {
       <VectorMap
         map="world_mill"
         ref={this.mapRef}
-        backgroundColor="blue"
+        backgroundColor="#bababa"
         containerStyle={{
           width: "100%",
           height: "100%"
@@ -55,10 +55,11 @@ class MapComponent extends React.Component<MapComponentProps, {}> {
           },
           hover: {
             "fill-opacity": 0.8,
-            cursor: "pointer"
+            cursor: "pointer",
+            fill: '#c9dbff'
           },
           selected: {
-            fill: "red"
+            fill: "#7a8eff"
           },
           selectedHover: {}
         }}

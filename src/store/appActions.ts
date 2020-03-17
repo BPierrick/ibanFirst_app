@@ -1,5 +1,9 @@
 import { AppState, Account } from "./appReducer";
 
+//________________________________________________________________________
+/**
+ * Action dispatched when a country is selected from the map component
+ */
 export const SET_SELECTED_COUNTRY_ACTION = "SET_SELECTED_COUNTRY_ACTION";
 interface SetSelectedCountryAction {
   type: "SET_SELECTED_COUNTRY_ACTION";
@@ -12,18 +16,20 @@ function setSelectedCountry(code: string): SetSelectedCountryAction {
   };
 }
 
+//________________________________________________________________________
+/**
+ * Action dispatched by the middleware when received new account datas
+ */
 export const SET_ACCOUNT_DATA_ACTION = "SET_ACCOUNT_DATA_ACTION";
 interface SetAccountDataAction {
   type: "SET_ACCOUNT_DATA_ACTION";
   accounts: Array<Account>;
 }
-function setAccountData(accounts: Array<Account>): SetAccountDataAction {
-  return {
-    type: SET_ACCOUNT_DATA_ACTION,
-    accounts
-  };
-}
 
+//________________________________________________________________________
+/**
+ * Action dispatched by account container component on load
+ */
 export const GET_ACCOUNT_DATA_ACTION = "GET_ACCOUNT_DATA_ACTION";
 interface GetAccountDataAction {
   type: "GET_ACCOUNT_DATA_ACTION";
@@ -34,6 +40,11 @@ function getAccountData(): GetAccountDataAction {
   };
 }
 
+//________________________________________________________________________
+/**
+ * Action dispatched by the middleware after receiving new account datas.
+ * It is used to set the account currency rate with EURO currency
+ */
 export const SET_CURRENCY_RATE_ACTION = "SET_CURRENCY_RATE_ACTION";
 interface SetCurrencyRateAction {
   type: "SET_CURRENCY_RATE_ACTION";
@@ -41,13 +52,22 @@ interface SetCurrencyRateAction {
   rate: number;
 }
 
+//________________________________________________________________________
+/**
+ * Action dispatched by the middleware after receiving new account datas.
+ * It is used to set the state.currencyRatesLoaded watcher
+ */
+export const SET_CURRENCY_RATES_LOADED_ACTION =
+  "SET_CURRENCY_RATES_LOADED_ACTION";
+interface SetCurrencyRatesLoadedAction {
+  type: "SET_CURRENCY_RATES_LOADED_ACTION";
+  currencyRatesLoaded: boolean;
+}
+
 export const useActions = (state: AppState, dispatch: Function) => {
   return {
     setSelectedCountry: (code: string) => {
       dispatch(setSelectedCountry(code));
-    },
-    setAccountData: (accounts: Array<Account>) => {
-      dispatch(setAccountData(accounts));
     },
     getAccountData: () => {
       dispatch(getAccountData());
@@ -59,4 +79,5 @@ export type AppAction =
   | SetSelectedCountryAction
   | SetAccountDataAction
   | GetAccountDataAction
-  | SetCurrencyRateAction;
+  | SetCurrencyRateAction
+  | SetCurrencyRatesLoadedAction;

@@ -12,7 +12,7 @@ const AccountContainer: React.FC<{}> = () => {
   }, []);
 
   return (
-    <>
+    <div style={{ textAlign: "left", overflowY: "auto" }}>
       {state.accounts.map((account: Account, index: number) => {
         if (
           state.selectedCountryCode === "" ||
@@ -23,7 +23,7 @@ const AccountContainer: React.FC<{}> = () => {
           return null;
         }
       })}
-    </>
+    </div>
   );
 };
 

@@ -1,5 +1,9 @@
 .map svg {
-  height: 500px;
+  height: 50vw;
+  min-height: 200px;
+  max-height: 500px;
+  min-width: 414px;
+  width: 100%;
 }
 
 .jvectormap-zoomin, .jvectormap-zoomout {
