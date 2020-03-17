@@ -2,6 +2,7 @@ import React, { useReducer, createContext } from "react";
 import { applyMiddleware } from "./appMiddleware";
 import { useActions } from "./appActions";
 import { appReducer, initialState, AppState } from "./appReducer";
+import StylesProvider from "@material-ui/styles/StylesProvider";
 
 type ContextType = {
   state: AppState;
@@ -28,7 +29,7 @@ const AppProvider: React.FC<any> = props => {
   };
   return (
     <AppContext.Provider value={contextValue}>
-      {props.children}
+      <StylesProvider injectFirst>{props.children}</StylesProvider>
     </AppContext.Provider>
   );
 };

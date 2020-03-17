@@ -11,8 +11,8 @@ function App() {
     <div className="App">
       <AppProvider>
         <Container maxWidth="xl">
-          <MapContainer />
           <TotalAmountComponent />
+          <MapContainer />
           <AccountContainer />
         </Container>
       </AppProvider>
