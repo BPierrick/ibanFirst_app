@@ -20,9 +20,9 @@ function setSelectedCountry(code: string): SetSelectedCountryAction {
 /**
  * Action dispatched by the middleware when received new account datas
  */
-export const SET_ACCOUNT_DATA_ACTION = "SET_ACCOUNT_DATA_ACTION";
+export const SET_ACCOUNTS_ACTION = "SET_ACCOUNTS_ACTION";
 interface SetAccountDataAction {
-  type: "SET_ACCOUNT_DATA_ACTION";
+  type: "SET_ACCOUNTS_ACTION";
   accounts: Array<Account>;
 }
 
@@ -64,6 +64,12 @@ interface SetCurrencyRatesLoadedAction {
   currencyRatesLoaded: boolean;
 }
 
+/**
+ * Sets the action methods to call whithin the app components
+ * Called to initialize the AppContext in the AppProvider component
+ * @param state 
+ * @param dispatch 
+ */
 export const useActions = (state: AppState, dispatch: Function) => {
   return {
     setSelectedCountry: (code: string) => {

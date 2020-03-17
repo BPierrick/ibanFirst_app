@@ -1,7 +1,7 @@
 import {
   AppAction,
   SET_SELECTED_COUNTRY_ACTION,
-  SET_ACCOUNT_DATA_ACTION,
+  SET_ACCOUNTS_ACTION,
   SET_CURRENCY_RATE_ACTION,
   SET_CURRENCY_RATES_LOADED_ACTION
 } from "./appActions";
@@ -9,7 +9,6 @@ import {
 export interface AppState {
   selectedCountryCode: string;
   accounts: Array<Account>;
-  cors_proxy_url: string;
   currencyRatesLoaded: boolean;
   currencyRates: { [currency: string]: number };
 }
@@ -50,7 +49,6 @@ interface Holder {
 export const initialState: AppState = {
   selectedCountryCode: "",
   accounts: [],
-  cors_proxy_url: "https://cors-anywhere.herokuapp.com/",
   currencyRatesLoaded: false,
   currencyRates: {}
 };
@@ -63,7 +61,7 @@ export function appReducer(state: AppState, action: AppAction): AppState {
         selectedCountryCode: action.code
       };
 
-    case SET_ACCOUNT_DATA_ACTION: {
+    case SET_ACCOUNTS_ACTION: {
       return {
         ...state,
         accounts: action.accounts

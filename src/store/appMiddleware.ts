@@ -1,13 +1,19 @@
 import {
   AppAction,
   SET_CURRENCY_RATE_ACTION,
-  SET_ACCOUNT_DATA_ACTION,
+  SET_ACCOUNTS_ACTION,
   GET_ACCOUNT_DATA_ACTION,
   SET_CURRENCY_RATES_LOADED_ACTION
 } from "./appActions";
 import { Account } from "./appReducer";
 
-export const applyMiddleware = (dispatch: Function) => async (
+/**
+ * This module tends to filter dispatched actions in order to
+ * handle API asynchronous calls.
+ * Dispatches its results through the given dispatch method.
+ * @param dispatch Dispatch method returned by useReducer React Hook
+ */
+export const applyMiddleware = (dispatch: React.Dispatch<AppAction>) => (
   action: AppAction
 ) => {
   switch (action.type) {
@@ -17,15 +23,16 @@ export const applyMiddleware = (dispatch: Function) => async (
       const targetUrl =
         "https://platform.ibanfirst.com/js/dataTestDevFront.json";
 
+      //API call to get the accounts data
       fetch(proxyUrl + targetUrl)
         .then(async data => {
           const dataObj: { accounts: Array<Account> } = await data.json();
           dispatch({
-            type: SET_ACCOUNT_DATA_ACTION,
+            type: SET_ACCOUNTS_ACTION,
             accounts: dataObj.accounts
           });
 
-          //We get the account currency rates
+          //We get the account currency rates for each of those account
           dataObj.accounts.forEach(account => {
             const EUR_CURRENCY = "EUR";
 
@@ -38,6 +45,7 @@ export const applyMiddleware = (dispatch: Function) => async (
             } else {
               const targetUrl = `https://api.ibanfirst.com/PublicAPI/Rate/${EUR_CURRENCY}${account.currency}/`;
 
+              //API call to get the current account currency rate
               fetch(proxyUrl + targetUrl)
                 .then(async response => {
                   const responseObj = await response.json();
@@ -69,10 +77,6 @@ export const applyMiddleware = (dispatch: Function) => async (
           currencyRatesLoaded = false;
         })
         .finally(() => {
-          console.log(
-            "GET DATA PROMISE TERMINATED WITH currencyRatesLoaded: ",
-            currencyRatesLoaded
-          );
           dispatch({
             type: SET_CURRENCY_RATES_LOADED_ACTION,
             currencyRatesLoaded

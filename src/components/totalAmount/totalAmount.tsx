@@ -7,7 +7,6 @@ import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 
 const TotalAmountComponent: React.FC<{}> = () => {
-  // const appContext = useContext(AppContext);
   const { state } = useContext(AppContext);
 
   if (!state.currencyRatesLoaded) {
