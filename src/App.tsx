@@ -10,7 +10,7 @@ function App() {
   return (
     <div className="App">
       <AppProvider>
-        <Container maxWidth="xl">
+        <Container maxWidth="md">
           <TotalAmountComponent />
           <MapContainer />
           <AccountContainer />
